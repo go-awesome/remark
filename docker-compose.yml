@@ -3,40 +3,35 @@ version: '2'
 services:
     remark:
         build: .
-        image: umputun/remark:master
-        container_name: "remark"
-        hostname: "remark"
+        image: umputun/remark42:latest
+        container_name: "remark42"
+        hostname: "remark42"
         restart: always
 
         logging:
-          driver: json-file
-          options:
-              max-size: "10m"
-              max-file: "5"
+            driver: json-file
+            options:
+                max-size: "10m"
+                max-file: "5"
 
         # uncomment to expose directly (no proxy)
         #ports:
         #  - "80:8080"
 
         environment:
-            # - REMARK_URL=https://demo.remark42.com
-            - USER
             - REMARK_URL
-            - BOLTDB_PATH=/srv/var/db
+            - SECRET
+            - STORE_BOLT_PATH=/srv/var/db
             - BACKUP_PATH=/srv/var/backup
-            - SESSION_STORE=/srv/var/session
-            # - DEV_PASSWD=password # development mode, be careful!
             - DEBUG=true
-            - REMARK_GOOGLE_CID
-            - REMARK_GOOGLE_CSEC
-            - REMARK_GITHUB_CID
-            - REMARK_GITHUB_CSEC
-            - REMARK_FACEBOOK_CID
-            - REMARK_FACEBOOK_CSEC
-            - REMARK_DISQUS_CID
-            - REMARK_DISQUS_CSEC
+            - AUTH_GOOGLE_CID
+            - AUTH_GOOGLE_CSEC
+            - AUTH_GITHUB_CID
+            - AUTH_GITHUB_CSEC
+            - AUTH_FACEBOOK_CID
+            - AUTH_FACEBOOK_CSEC
+            - AUTH_DISQUS_CID
+            - AUTH_DISQUS_CSEC
+            # - ADMIN_PASSWD=password
         volumes:
             - ./var:/srv/var
-            #- ./web:/srv/web # uncomment to map web directory directly. It will propagate local changes to container without redeploy
-
-        command: /srv/start.sh
